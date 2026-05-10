@@ -1,0 +1,15 @@
+src/**/*.test.ts
+src/**/*.test.js
+src/**/*.test.d.ts
+node_modules/
+*.tgz
+.DS_Store
+.vscode/
+.idea/
+coverage/
+.turbo/
+.pnpm-debug.log*
+.git/
+.github/
+tsconfig.json
+vitest.config.ts

@@ -1,0 +1,70 @@
+{
+  "name": "bourdon-openclaw",
+  "version": "0.1.0",
+  "description": "OpenClaw plugin for Bourdon — cross-agent memory federation. Publishes openclaw.l5.yaml on session-end and exposes Bourdon's L6 MCP tools (search, cross-agent-summary, recent-work, find-entity, recognize, deeper-context) as native OpenClaw tools so OpenClaw agents can recall what Claude Code, Codex, Cursor, and other Bourdon-equipped agents have been doing.",
+  "license": "BUSL-1.1",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist/",
+    "openclaw.plugin.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "echo 'lint placeholder — wire up oxlint to match openclaw conventions'"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "typebox": "^1.1.38",
+    "yaml": "^2.6.0"
+  },
+  "peerDependencies": {
+    "openclaw": ">=2026.5.7"
+  },
+  "peerDependenciesMeta": {
+    "openclaw": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "openclaw": ">=2026.5.7",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  },
+  "openclaw": {
+    "extensions": [
+      "./dist/index.js"
+    ]
+  },
+  "keywords": [
+    "openclaw",
+    "openclaw-plugin",
+    "bourdon",
+    "memory",
+    "agent-memory",
+    "cross-agent",
+    "mcp",
+    "federation"
+  ],
+  "homepage": "https://bourdon.ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/getbourdon/openclaw-bourdon-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/getbourdon/openclaw-bourdon-plugin/issues"
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "id": "bourdon",
+  "activation": {
+    "onStartup": false
+  },
+  "kind": "memory",
+  "contracts": {
+    "tools": [
+      "bourdon_search",
+      "bourdon_cross_agent_summary",
+      "bourdon_recent_work",
+      "bourdon_find_entity",
+      "bourdon_recognize",
+      "bourdon_deeper_context"
+    ]
+  },
+  "commandAliases": [
+    {
+      "name": "bourdon",
+      "kind": "runtime-slash",
+      "cliCommand": "bourdon"
+    }
+  ],
+  "uiHints": {
+    "library": {
+      "label": "Agent Library Path",
+      "placeholder": "~/agent-library",
+      "help": "Where Bourdon's L5 manifests are stored. Default: ~/agent-library."
+    },
+    "publishOnSessionEnd": {
+      "label": "Publish on Session End",
+      "help": "Write openclaw.l5.yaml after each session closes so other Bourdon-equipped agents can recall what OpenClaw did."
+    },
+    "accessLevel": {
+      "label": "Default Access Level",
+      "placeholder": "team",
+      "help": "Default visibility scope for queries Bourdon tools issue (public | team | private). Private entities are filtered at the L6 layer regardless."
+    },
+    "l6.transport": {
+      "label": "L6 Transport",
+      "placeholder": "stdio",
+      "help": "How the plugin reaches Bourdon's L6 MCP server. 'stdio' spawns python -m core.l6_server as a subprocess. 'http' connects to a long-running L6 service over SSE."
+    },
+    "l6.command": {
+      "label": "L6 stdio Command",
+      "placeholder": "python",
+      "help": "Command used to launch L6 (only for transport=stdio). Default: python."
+    },
+    "l6.url": {
+      "label": "L6 HTTP URL",
+      "placeholder": "http://localhost:7500/sse",
+      "help": "Endpoint URL when transport=http."
+    }
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "library": {
+        "type": "string",
+        "description": "Path to ~/agent-library (or override). Defaults to $HOME/agent-library."
+      },
+      "publishOnSessionEnd": {
+        "type": "boolean",
+        "default": true
+      },
+      "publishCron": {
+        "type": "string",
+        "description": "Optional cron expression for periodic L5 publication beyond session-end."
+      },
+      "accessLevel": {
+        "type": "string",
+        "enum": ["public", "team", "private"],
+        "default": "team"
+      },
+      "l6": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "transport": {
+            "type": "string",
+            "enum": ["stdio", "http"],
+            "default": "stdio"
+          },
+          "command": {
+            "type": "string",
+            "default": "python"
+          },
+          "args": {
+            "type": "array",
+            "items": {"type": "string"},
+            "default": ["-m", "core.l6_server"]
+          },
+          "url": {
+            "type": "string",
+            "default": "http://localhost:7500/sse"
+          },
+          "spawnTimeoutMs": {
+            "type": "integer",
+            "default": 5000,
+            "minimum": 100
+          }
+        }
+      },
+      "redaction": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "snippetCharLimit": {
+            "type": "integer",
+            "default": 180,
+            "minimum": 32
+          }
+        }
+      }
+    }
+  }
+}
