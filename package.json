@@ -1,6 +1,6 @@
 {
   "name": "@bourdon/openclaw",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "OpenClaw plugin for Bourdon — cross-agent memory federation. Publishes openclaw.l5.yaml on session-end and exposes Bourdon's L6 MCP tools (search, cross-agent-summary, recent-work, find-entity, recognize, deeper-context) as native OpenClaw tools so OpenClaw agents can recall what Claude Code, Codex, Cursor, and other Bourdon-equipped agents have been doing.",
   "license": "BUSL-1.1",
   "type": "module",
@@ -16,7 +16,8 @@
     "dist/",
     "openclaw.plugin.json",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "SECURITY.md"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",

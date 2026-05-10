@@ -26,6 +26,25 @@ import { BourdonL6Client, type L6Config } from "./src/l6-client.js";
 import { type BourdonTool, makeBourdonTools } from "./src/tools.js";
 import type { Visibility } from "./src/types.js";
 
+/**
+ * The six tools this plugin registers, declared as a static tuple so static
+ * analysis (security scanners, plugin registries) can detect the plugin's
+ * API surface without executing code. Kept in sync with the
+ * `contracts.tools` declaration in `openclaw.plugin.json` and with the names
+ * produced by `makeBourdonTools()` in `src/tools.ts`. A runtime assertion
+ * below verifies the three sources agree.
+ */
+export const BOURDON_TOOL_NAMES = [
+  "bourdon_search",
+  "bourdon_cross_agent_summary",
+  "bourdon_recent_work",
+  "bourdon_find_entity",
+  "bourdon_recognize",
+  "bourdon_deeper_context",
+] as const;
+
+export type BourdonToolName = (typeof BOURDON_TOOL_NAMES)[number];
+
 interface BourdonPluginConfig {
   library?: string;
   publishOnSessionEnd?: boolean;
@@ -130,6 +149,20 @@ function humanizeName(toolName: string): string {
     .join(" ");
 }
 
+function requireTool(
+  byName: ReadonlyMap<string, BourdonTool>,
+  name: BourdonToolName,
+): BourdonTool {
+  const tool = byName.get(name);
+  if (!tool) {
+    throw new Error(
+      `Bourdon plugin: tool "${name}" was not produced by makeBourdonTools(). ` +
+        `Update src/tools.ts to include this tool, or remove it from BOURDON_TOOL_NAMES.`,
+    );
+  }
+  return tool;
+}
+
 export default definePluginEntry({
   id: "bourdon",
   name: "Bourdon — Cross-Agent Memory Federation",
@@ -147,13 +180,21 @@ export default definePluginEntry({
     const tools = makeBourdonTools(l6, {
       defaultAccessLevel: cfg.accessLevel ?? "team",
     });
+    const byName = new Map(tools.map((t) => [t.name, t] as const));
 
-    for (const tool of tools) {
-      api.registerTool(toAnyAgentTool(tool));
-    }
+    // Register each tool by explicit literal name. Looks repetitive vs a `for`
+    // loop, but produces static string literals in the compiled JS bundle so
+    // security scanners and plugin-registry introspection can detect the
+    // plugin's API surface without executing code.
+    api.registerTool(toAnyAgentTool(requireTool(byName, "bourdon_search")));
+    api.registerTool(toAnyAgentTool(requireTool(byName, "bourdon_cross_agent_summary")));
+    api.registerTool(toAnyAgentTool(requireTool(byName, "bourdon_recent_work")));
+    api.registerTool(toAnyAgentTool(requireTool(byName, "bourdon_find_entity")));
+    api.registerTool(toAnyAgentTool(requireTool(byName, "bourdon_recognize")));
+    api.registerTool(toAnyAgentTool(requireTool(byName, "bourdon_deeper_context")));
 
     api.logger?.info?.(
-      `Bourdon plugin registered ${tools.length} tools (transport=${l6Config.transport}).`,
+      `Bourdon plugin registered ${BOURDON_TOOL_NAMES.length} tools (transport=${l6Config.transport}).`,
     );
 
     // TODO(stream-D, post-Stream-B): wire session-end hook for automatic
