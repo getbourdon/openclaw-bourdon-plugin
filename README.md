@@ -1,4 +1,4 @@
-# bourdon-openclaw
+# @bourdon/openclaw
 
 [![License: BSL 1.1](https://img.shields.io/badge/License-BSL%201.1-blue.svg)](LICENSE)
 
@@ -37,7 +37,7 @@ openclaw plugin install bourdon
 ### Manual
 
 ```sh
-pnpm add -D bourdon-openclaw
+pnpm add -D @bourdon/openclaw
 ```
 
 Then add to your OpenClaw config (`~/.openclaw/config.json` or whatever your installation uses):

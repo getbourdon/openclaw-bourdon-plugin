@@ -107,7 +107,7 @@ export class BourdonL6Client {
   private async connect(): Promise<void> {
     const transport = this.buildTransport(this.config);
     const client = new Client(
-      { name: "bourdon-openclaw", version: "0.1.0" },
+      { name: "@bourdon/openclaw", version: "0.1.0" },
       { capabilities: {} },
     );
     await client.connect(transport);

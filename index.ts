@@ -1,5 +1,5 @@
 /**
- * @openclaw/bourdon (community-published as `bourdon-openclaw`)
+ * @bourdon/openclaw — Bourdon × OpenClaw plugin.
  *
  * Top-level plugin entry. Wires the SDK-agnostic source modules
  * (manifest-writer, redaction, l6-client, l5-publisher, tools) into
