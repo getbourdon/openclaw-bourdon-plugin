@@ -32,7 +32,7 @@
     "yaml": "^2.6.0"
   },
   "peerDependencies": {
-    "openclaw": ">=2026.5.26"
+    "openclaw": ">=2026.6.5"
   },
   "peerDependenciesMeta": {
     "openclaw": {
@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
-    "openclaw": ">=2026.5.26",
+    "openclaw": ">=2026.6.5",
     "typescript": "^5.6.0",
     "vitest": "^3.2.6"
   },
