@@ -27,7 +27,7 @@
     "lint": "echo 'lint placeholder — wire up oxlint to match openclaw conventions'"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@modelcontextprotocol/sdk": "^1.32.0",
     "typebox": "^1.1.38",
     "yaml": "^2.6.0"
   },
